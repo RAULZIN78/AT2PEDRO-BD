@@ -11,18 +11,16 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-/////////////////////////////////////////////
-$id = $_POST["id"];
-$usuario = $_POST["usuario"];
-$senha = $_POST["senha"];
-$email = $_POST["email"];
-$sexo = $_POST["sexo"];
-$endereco = $_POST["endereco"];
-$telefone = $_POST["telefone"];
-/////////////////////////////////////////////
+$id_usuario = isset($_POST['id_usuario']) ? intval($_POST['id_usuario']) : 0;
 
-$sql = "INSERT INTO cliente (id, usuario, senha, email, sexo, endereco, telefone)
-VALUES ('$id', '$usuario', '$senha ','$email','$sexo','$endereco','$telefone')";
+$nomeProduto = $_POST["nome_produto"];
+$preco = $_POST["preco"];
+$desc = $_POST["desc"];
+
+var_dump($_POST);
+
+$sql = "INSERT INTO produto (nome_produto, preco, descricao, usuario_id)
+VALUES ('$nomeProduto', '$preco', '$desc', '$id_usuario')";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";
