@@ -12,7 +12,10 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT* FROM cliente";
+$id_vendedor = isset($_GET['id']) ? intval($_GET['id']) : 0;
+var_dump($_POST);
+
+$sql = "SELECT* FROM produto WHERE usuario_id = $id_vendedor";
 $result = $conn->query($sql);
 ?>
 <!doctype html>
@@ -25,17 +28,15 @@ $result = $conn->query($sql);
   </head>
   <body>
     <div class="container">
-    <h1>Lista Vendedores</h1>       
+    <h1>Lista Produtos</h1>       
     <table class="table">
     <thead>
         <tr>
-        <th scope="col">id</th>
-        <th scope="col">usuario</th>
-        <th scope="col">email</th>
-        <th scope="col">senha</th>
-        <th scope="col">sexo</th>
-        <th scope="col">telefone</th>
-        <th scope="col">endereco</th>
+        <th scope="col">Id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Preço</th>
+        <th scope="col">Descrição</th> 
+        <th scope="col">Id do vendedor</th>
         </tr>
     </thead>
     <?php
@@ -44,19 +45,15 @@ $result = $conn->query($sql);
     ?>
     <tbody>
         <tr>
-        <td><?php echo $row["id"] ?></td>
-        <td><?php echo $row["usuario"] ?></td>
-        <td><?php echo $row["email"] ?></td>
-        <td><?php echo $row["senha"] ?></td>
-        <td><?php echo $row["sexo"] ?></td>
-        <td><?php echo $row["telefone"] ?></td>
-        <td><?php echo $row["endereco"] ?></td>
+        <td><?php echo $row["id_produto"] ?></td>
+        <td><?php echo $row["nome_produto"] ?></td>
+        <td><?php echo $row["preco"] ?></td>
+        <td><?php echo $row["descricao"] ?></td>
+        <td><?php echo $row["usuario_id"] ?></td>
         <td>
-          <a class="btn btn-primary btn-sm" href="detalhar.php?id=<?php echo $row['id'] ?>" role="button">Detalhar</a>
-          <a class="btn btn-success btn-sm" href="atualizar.php?id=<?php echo $row['id'] ?>" role="button">Atualizar</a>    
-          <a class="btn btn-danger btn-sm" href="excluir.php?id=<?php echo $row['id'] ?>" role="button" onclick="return confirmDelete();">Excluir</a>
-          <a class="btn btn-primary btn-sm" href="item/listaItem.php?id=<?php echo $row['id'] ?>" role="button">Listar Itens</a>
-          <a class="btn btn-primary btn-sm" href="item/cadastroItem.php?id=<?php echo $row['id'] ?>" role="button">Cadastrar Itens</a>
+          <a class="btn btn-primary btn-sm" href="detalharItem.php?id=<?php echo $row['id_produto'] ?>" role="button">Detalhar</a>
+          <a class="btn btn-success btn-sm" href="atualizarItem.php?id=<?php echo $row['id_produto'] ?>" role="button">Atualizar</a>    
+          <a class="btn btn-danger btn-sm" href="excluirItem.php?id=<?php echo $row['id_produto'] ?>" role="button" onclick="return confirmDelete();">Excluir</a>
         </td>
         </tr>
     
@@ -77,12 +74,12 @@ $result = $conn->query($sql);
     <script>
 
       function confirmDelete() {
-          if (confirm("Tem certeza que deseja excluir?")) {
+        if (confirm("Tem certeza que deseja excluir?")) {
             return true;  // Permite o envio do formulário
-          } else {
+        } else {
             return false; // Impede o envio do formulário
-          }
-       }
+        }
+      }
 
     </script>
 
